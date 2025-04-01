@@ -1,4 +1,4 @@
-import React from 'react';
+/*import React from 'react';
 import { StyleSheet } from 'react-native';
 
 import { ExternalLink } from './ExternalLink';
@@ -75,3 +75,4 @@ const styles = StyleSheet.create({
     textAlign: 'center',
   },
 });
+*/

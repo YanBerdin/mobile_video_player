@@ -2,6 +2,8 @@
   "extends": "expo/tsconfig.base",
   "compilerOptions": {
     "strict": true,
+    "esModuleInterop": true,
+    "forceConsistentCasingInFileNames": true, // https://webhint.io/docs/user-guide/hints/hint-typescript-config/consistent-casing/
     "paths": {
       "@/*": [
         "./*"
