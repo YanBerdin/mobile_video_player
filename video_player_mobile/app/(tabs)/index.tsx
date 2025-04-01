@@ -1,31 +1,49 @@
-import { StyleSheet } from 'react-native';
-
+import { StyleSheet, ActivityIndicator } from 'react-native';
 // import EditScreenInfo from '@/components/EditScreenInfo';
-import { Text, View } from '@/components/Themed';
-//import { Text, View } from 'react-native';
+import { View } from '@/components/Themed';
 import VideoList from "@/components/VideoList";
-import { useEffect, useState } from "react";
-import { getVideoItemList } from "../utils/SearchResults";
-import { VideoItem } from "../types/VideoItem"; // voir @
-
+import { useState } from "react";
+import { fetchVideos } from "../utils/SearchResults";
+import { VideoItem } from "../types/VideoItem"; // check @
+import SearchForm from "@/components/SearchForm";
 
 export default function Home() {
-  const [fetchedVideos, setFetchedVideos] = useState<VideoItem[]>([]);
+  const [query, setQuery] = useState<string>("");
+  const [fetchedVideos, setFetchedVideos] = useState<VideoItem[]>
+    ([]);
+  const [loading, setLoading] = useState<boolean>(false);
 
-  useEffect(() => {
-    async function fetchHomeFeed() {
-      const results = await getVideoItemList("Tutoriel React Native");
-      setFetchedVideos(results);
+  async function handleFetchVideos() {
+    setLoading(true);
+    try {
+      const fetchResults = await fetchVideos(query);
+      console.log("Search results:", fetchResults); //TODO Remove this line
+      setFetchedVideos(fetchResults);
+      console.log("handleFetchVideos completed"); //TODO Remove this line
+      //setQuery("");
+    } catch (error) {
+      console.error("Error fetching videos:", error);
+      setFetchedVideos([]);
+      setQuery("");
+    } finally {
+      setLoading(false);
     }
-    fetchHomeFeed();
-  }, []);
+  }
 
   return (
     <View style={styles.container}>
-      <Text style={styles.title}>Welcome</Text>
-      <View style={styles.separator} lightColor="#eee" darkColor="rgba(255,255,255,0.1)" />
+      <SearchForm
+        query={query}
+        setQuery={setQuery}
+        handleFetchVideos={handleFetchVideos}
+      />
+      {/*<View style={styles.separator} lightColor="#eee" darkColor="rgba(255,255,255,0.1)" />*/}
       {/*<EditScreenInfo path="app/(tabs)/index.tsx" />*/}
-      <VideoList fetchedVideos={fetchedVideos} />
+      {loading ? (
+        <ActivityIndicator size="large" color="#0000ff" />
+      ) : (
+        <VideoList fetchedVideos={fetchedVideos} />
+      )}
     </View>
   );
 }
@@ -37,12 +55,12 @@ const styles = StyleSheet.create({
     justifyContent: 'center',
   },
   title: {
-    fontSize: 20,
+    fontSize: 16,
     fontWeight: 'bold',
   },
   separator: {
-    marginVertical: 30,
-    height: 1,
-    width: '80%',
+    marginVertical: 5,
+    height: 2,
+    width: '100%',
   },
 });

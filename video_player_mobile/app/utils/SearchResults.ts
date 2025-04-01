@@ -11,7 +11,7 @@ import Constants from "expo-constants";
  * @param query Query string
  * @return List of videos
  */
-export const getVideoItemList = async (query: string): Promise<VideoItem[] | []> => {
+export const fetchVideos = async (query: string): Promise<VideoItem[] | []> => {
     console.log("Query : ", query); //TODO Remove this line
     const url = `https://youtube138.p.rapidapi.com/search/?q=${query}&hl=fr&gl=FR&region_code=FR&type=video&sort=relevance&count=20&offset=0`;
     //const url = `https://youtube138.p.rapidapi.com/search/?q=${query}`;

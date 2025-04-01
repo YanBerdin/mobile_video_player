@@ -6,7 +6,7 @@ export default {
   expo: {
     ...appJson.expo, // Étend la config Expo
     extra: {
-      RAPIDAPI_KEY: process.env.RAPIDAPI_KEY || '33a38a48e2msh345936a2215c570p1a003cjsn277d5a16ce04',
+      RAPIDAPI_KEY: process.env.RAPIDAPI_KEY,
       RAPIDAPI_HOST: process.env.RAPIDAPI_HOST
     },
   },
